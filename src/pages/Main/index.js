@@ -55,10 +55,10 @@ export default class Main extends Component {
   updateRepository = async (id) => {
     const { repositories } = this.state;
     const repository = repositories.find(repo => repo.id === id);
-    repository.lastCommit = moment(repository.pushed_at).fromNow();
     try {
       this.setState({ loading: true });
-      const data = await api.get(`repos/${repository.full_name}`);
+      const { data } = await api.get(`repos/${repository.full_name}`);
+      data.lastCommit = moment(data.pushed_at).fromNow();
       this.setState({
         repositoryError: false,
         repositoryInput: '',
